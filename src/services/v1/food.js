@@ -7,4 +7,14 @@ const newCreateFood = ({ image, name, category, price, description }) => {
 
 const getAllFoods = () => Food.find();
 
-module.exports = { newCreateFood, getAllFoods };
+const getAllFoodsByFields = (fields) => {
+  const fieldsParams = fields;
+  const fieldsArr = fieldsParams.split(',');
+  const projectionFields = {};
+  fieldsArr.forEach((field) => {
+    projectionFields[field] = 1;
+  });
+  return Food.find().select(projectionFields);
+};
+
+module.exports = { newCreateFood, getAllFoods, getAllFoodsByFields };
