@@ -1,0 +1,12 @@
+{
+  // config related to code formatting
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    // fix all eslint auto fixable problems when save, if you not use you can comment  next line but after that you have to run eslint --fix command to fix eslint auto fixable problems or manually fix them
+    "source.fixAll.eslint": "always",
+    // next line for organize imports and remove unused imports when save
+    "source.organizeImports": "always"
+  },
+  "eslint.alwaysShowStatus": true
+}
