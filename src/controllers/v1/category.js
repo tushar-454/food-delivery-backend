@@ -3,6 +3,7 @@ const {
   getAllCategories,
   updatedCategory,
   getCategoryByProperty,
+  deleteCategoryById,
 } = require('../../services/v1/category');
 
 const createCategory = async (req, res, next) => {
@@ -55,4 +56,19 @@ const updateCategory = async (req, res, next) => {
   return null;
 };
 
-module.exports = { createCategory, getCategories, updateCategory };
+const deleteCategory = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const isCategoryExist = await getCategoryByProperty('_id', id);
+    if (!isCategoryExist) {
+      res.status(400).json({ error: 'User bad request' });
+    }
+    await deleteCategoryById(id);
+    res.status(204).json(null);
+  } catch (error) {
+    next(error);
+  }
+  return null;
+};
+
+module.exports = { createCategory, getCategories, updateCategory, deleteCategory };

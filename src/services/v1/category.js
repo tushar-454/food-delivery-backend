@@ -29,4 +29,21 @@ const updatedCategory = ({ id, image, name, category }) => {
   return updateCategory;
 };
 
-module.exports = { createNewCategory, getAllCategories, updatedCategory, getCategoryByProperty };
+const deleteCategoryById = (id) => {
+  Category.findByIdAndDelete(id)
+    .then((del) => {
+      if (del) {
+        return del;
+      }
+      return { error: 'User bad request' };
+    })
+    .catch((error) => error);
+};
+
+module.exports = {
+  createNewCategory,
+  getAllCategories,
+  updatedCategory,
+  getCategoryByProperty,
+  deleteCategoryById,
+};
