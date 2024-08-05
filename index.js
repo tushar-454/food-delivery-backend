@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const routes = require('./src/routes/v1');
 const globalError = require('./src/utils/globalError');
+const logger = require('./src/middleware/logger');
 
 app.use(
   cors({
@@ -18,6 +19,7 @@ app.use(
 );
 app.use(cookieParser());
 app.use(express.json());
+app.use(logger);
 app.use(routes);
 app.use(globalError);
 
