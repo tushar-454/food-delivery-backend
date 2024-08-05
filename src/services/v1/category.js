@@ -6,4 +6,6 @@ const createNewCategory = async ({ image, name, category }) => {
   return newCategory;
 };
 
-module.exports = { createNewCategory };
+const getAllCategories = () => Category.find();
+
+module.exports = { createNewCategory, getAllCategories };
