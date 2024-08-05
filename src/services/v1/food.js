@@ -40,6 +40,11 @@ const newUpdatedFood = ({ id, image, name, category, price, description }) => {
 
 const deleteFoodById = (id) => Food.findByIdAndDelete(id);
 
+const deleteFoodsById = (id) => {
+  const ids = id.split(',');
+  return Food.deleteMany({ _id: { $in: ids } });
+};
+
 module.exports = {
   newCreateFood,
   getAllFoods,
@@ -47,4 +52,5 @@ module.exports = {
   getFoodByProperty,
   newUpdatedFood,
   deleteFoodById,
+  deleteFoodsById,
 };

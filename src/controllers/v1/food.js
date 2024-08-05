@@ -5,6 +5,7 @@ const {
   getFoodByProperty,
   newUpdatedFood,
   deleteFoodById,
+  deleteFoodsById,
 } = require('../../services/v1/food');
 
 const createFood = async (req, res, next) => {
@@ -86,4 +87,23 @@ const deleteFood = async (req, res, next) => {
   return null;
 };
 
-module.exports = { createFood, getFoods, getFoodsByFields, getFood, updateFood, deleteFood };
+const deleteFoods = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    await deleteFoodsById(id);
+    return res.status(204).json(null);
+  } catch (error) {
+    next(error);
+  }
+  return null;
+};
+
+module.exports = {
+  createFood,
+  getFoods,
+  getFoodsByFields,
+  getFood,
+  updateFood,
+  deleteFood,
+  deleteFoods,
+};
