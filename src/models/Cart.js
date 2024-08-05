@@ -19,11 +19,6 @@ const cartSchema = new Schema({
     type: Number,
     required: [true, 'Total is required'],
   },
-  status: {
-    type: String,
-    enum: ['pending', 'foodProcessing', 'ofd', 'delivered'],
-    default: 'pending',
-  },
   createdAt: {
     type: Date,
     default: Date.now,
