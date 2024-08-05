@@ -4,6 +4,7 @@ const {
   getAllFoodsByFields,
   getFoodByProperty,
   newUpdatedFood,
+  deleteFoodById,
 } = require('../../services/v1/food');
 
 const createFood = async (req, res, next) => {
@@ -70,4 +71,19 @@ const updateFood = async (req, res, next) => {
   return null;
 };
 
-module.exports = { createFood, getFoods, getFoodsByFields, getFood, updateFood };
+const deleteFood = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const isFoodExist = await getFoodByProperty('_id', id);
+    if (!isFoodExist) {
+      return res.status(400).json({ error: 'User bad request' });
+    }
+    await deleteFoodById(id);
+    return res.status(204).json(null);
+  } catch (error) {
+    next(error);
+  }
+  return null;
+};
+
+module.exports = { createFood, getFoods, getFoodsByFields, getFood, updateFood, deleteFood };

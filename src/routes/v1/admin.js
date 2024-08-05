@@ -11,6 +11,7 @@ const {
   getFoodsByFields,
   getFood,
   updateFood,
+  deleteFood,
 } = require('../../controllers/v1/food');
 
 router.post('/category', createCategory);
@@ -22,5 +23,6 @@ router.get('/foods', getFoods);
 router.get('/foods/:fields', getFoodsByFields);
 router.get('/food/:id', getFood);
 router.put('/food/:id', updateFood);
+router.delete('/food/:id', deleteFood);
 
 module.exports = router;

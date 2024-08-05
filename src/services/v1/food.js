@@ -38,10 +38,13 @@ const newUpdatedFood = ({ id, image, name, category, price, description }) => {
   return updatedFood;
 };
 
+const deleteFoodById = (id) => Food.findByIdAndDelete(id);
+
 module.exports = {
   newCreateFood,
   getAllFoods,
   getAllFoodsByFields,
   getFoodByProperty,
   newUpdatedFood,
+  deleteFoodById,
 };
