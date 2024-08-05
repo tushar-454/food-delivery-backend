@@ -1,4 +1,9 @@
-const { createNewCategory, getAllCategories } = require('../../services/v1/category');
+const {
+  createNewCategory,
+  getAllCategories,
+  updatedCategory,
+  getCategoryByProperty,
+} = require('../../services/v1/category');
 
 const createCategory = async (req, res, next) => {
   try {
@@ -25,4 +30,29 @@ const getCategories = async (req, res, next) => {
   return null;
 };
 
-module.exports = { createCategory, getCategories };
+const updateCategory = async (req, res, next) => {
+  try {
+    const regex = /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|bmp|webp))$/;
+    const { id } = req.params;
+    const { image, name, category } = req.body;
+    if (image && !regex.test(image)) {
+      return res.status(400).json({ error: 'User bad request' });
+    }
+    const isCategoryExist = await getCategoryByProperty('_id', id);
+    if (!isCategoryExist) {
+      res.status(400).json({ error: 'User bad request' });
+    }
+    const updateNewCategory = await updatedCategory({
+      id,
+      image,
+      name,
+      category,
+    });
+    return res.status(200).json(updateNewCategory);
+  } catch (error) {
+    next(error);
+  }
+  return null;
+};
+
+module.exports = { createCategory, getCategories, updateCategory };

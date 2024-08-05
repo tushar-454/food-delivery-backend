@@ -8,4 +8,25 @@ const createNewCategory = async ({ image, name, category }) => {
 
 const getAllCategories = () => Category.find();
 
-module.exports = { createNewCategory, getAllCategories };
+const getCategoryByProperty = (property, value) => {
+  const category = Category.findOne({ [property || 'name']: value });
+  return category;
+};
+
+const updatedCategory = ({ id, image, name, category }) => {
+  const updateCategory = Category.findByIdAndUpdate(
+    id,
+    { image, name, category },
+    { new: true, runValidators: true },
+  )
+    .then((up) => {
+      if (up) {
+        return up;
+      }
+      return { error: 'User bad request' };
+    })
+    .catch((error) => error);
+  return updateCategory;
+};
+
+module.exports = { createNewCategory, getAllCategories, updatedCategory, getCategoryByProperty };
