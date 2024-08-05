@@ -3,6 +3,7 @@ const {
   getAllFoods,
   getAllFoodsByFields,
   getFoodByProperty,
+  newUpdatedFood,
 } = require('../../services/v1/food');
 
 const createFood = async (req, res, next) => {
@@ -52,4 +53,21 @@ const getFood = async (req, res, next) => {
   return null;
 };
 
-module.exports = { createFood, getFoods, getFoodsByFields, getFood };
+const updateFood = async (req, res, next) => {
+  const regex = /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|bmp|webp))$/;
+  try {
+    const { id } = req.params;
+    const { image, name, category, price, description } = req.body;
+    const isFoodExist = await getFoodByProperty('_id', id);
+    if (!regex.test(image) || !isFoodExist) {
+      return res.status(400).json({ error: 'User bad request' });
+    }
+    const updatedFood = await newUpdatedFood({ id, image, name, category, price, description });
+    return res.status(200).json(updatedFood);
+  } catch (error) {
+    next(error);
+  }
+  return null;
+};
+
+module.exports = { createFood, getFoods, getFoodsByFields, getFood, updateFood };

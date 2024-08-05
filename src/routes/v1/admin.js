@@ -5,7 +5,13 @@ const {
   updateCategory,
   deleteCategory,
 } = require('../../controllers/v1/category');
-const { createFood, getFoods, getFoodsByFields, getFood } = require('../../controllers/v1/food');
+const {
+  createFood,
+  getFoods,
+  getFoodsByFields,
+  getFood,
+  updateFood,
+} = require('../../controllers/v1/food');
 
 router.post('/category', createCategory);
 router.get('/categories', getCategories);
@@ -15,5 +21,6 @@ router.post('/food', createFood);
 router.get('/foods', getFoods);
 router.get('/foods/:fields', getFoodsByFields);
 router.get('/food/:id', getFood);
+router.put('/food/:id', updateFood);
 
 module.exports = router;

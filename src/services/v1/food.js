@@ -22,4 +22,26 @@ const getFoodByProperty = (property, value) => {
   return food;
 };
 
-module.exports = { newCreateFood, getAllFoods, getAllFoodsByFields, getFoodByProperty };
+const newUpdatedFood = ({ id, image, name, category, price, description }) => {
+  const updatedFood = Food.findByIdAndUpdate(
+    id,
+    { image, name, category, price, description },
+    { new: true, runValidators: true },
+  )
+    .then((up) => {
+      if (up) {
+        return up;
+      }
+      return { error: 'User bad request' };
+    })
+    .catch((error) => error);
+  return updatedFood;
+};
+
+module.exports = {
+  newCreateFood,
+  getAllFoods,
+  getAllFoodsByFields,
+  getFoodByProperty,
+  newUpdatedFood,
+};
