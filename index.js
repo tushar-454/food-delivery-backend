@@ -2,6 +2,7 @@ const express = require('express');
 
 const app = express();
 require('dotenv').config();
+const mongoose = require('mongoose');
 
 const port = process.env.PORT || 4000;
 const cookieParser = require('cookie-parser');
@@ -31,6 +32,14 @@ app.get('/health', (_req, res) => {
   res.status(200).json({ message: 'Server health is fine' });
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+mongoose
+  .connect(process.env.URI)
+  .then(() => {
+    console.log('Pinged your deployment. You successfully connected to MongoDB!');
+    app.listen(port, () => {
+      console.log(`Server is running on http://localhost:${port}`);
+    });
+  })
+  .catch((e) => {
+    console.log(e);
+  });

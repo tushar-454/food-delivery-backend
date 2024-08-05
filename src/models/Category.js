@@ -9,10 +9,12 @@ const categorySchema = new Schema({
     type: String,
     required: [true, 'Name is required'],
     unique: true,
+    trim: true,
   },
   category: {
     type: String,
     required: [true, 'Category is required'],
+    trim: true,
   },
 });
 
