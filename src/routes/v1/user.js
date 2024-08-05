@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const { getUserByEmail } = require('../../controllers/v1/user');
+const { getCategories } = require('../../controllers/v1/user');
 
-router.get('/', getUserByEmail);
+router.get('/categories', getCategories);
 
 module.exports = router;
