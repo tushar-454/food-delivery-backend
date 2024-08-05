@@ -9,18 +9,22 @@ const foodSchema = new Schema({
     type: String,
     required: [true, 'Name is required'],
     unique: true,
+    trim: true,
   },
   category: {
     type: String,
     required: [true, 'Category is required'],
+    trim: true,
   },
   price: {
     type: Number,
     required: [true, 'Price is required'],
+    trim: true,
   },
   description: {
     type: String,
     required: [true, 'Description is required'],
+    trim: true,
   },
   rating: {
     type: Number,
@@ -29,14 +33,6 @@ const foodSchema = new Schema({
   isAvailable: {
     type: Boolean,
     default: true,
-  },
-  isVeg: {
-    type: Boolean,
-    default: true,
-  },
-  isDiscounted: {
-    type: Boolean,
-    default: false,
   },
   discount: {
     type: Number,
