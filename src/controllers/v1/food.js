@@ -1,4 +1,4 @@
-const { newCreateFood } = require('../../services/v1/food');
+const { newCreateFood, getAllFoods } = require('../../services/v1/food');
 
 const createFood = async (req, res, next) => {
   try {
@@ -14,4 +14,14 @@ const createFood = async (req, res, next) => {
   return null;
 };
 
-module.exports = { createFood };
+const getFoods = async (req, res, next) => {
+  try {
+    const foods = await getAllFoods();
+    return res.status(200).json(foods);
+  } catch (error) {
+    next(error);
+  }
+  return null;
+};
+
+module.exports = { createFood, getFoods };
