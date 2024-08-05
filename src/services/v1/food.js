@@ -17,4 +17,9 @@ const getAllFoodsByFields = (fields) => {
   return Food.find().select(projectionFields);
 };
 
-module.exports = { newCreateFood, getAllFoods, getAllFoodsByFields };
+const getFoodByProperty = (property, value) => {
+  const food = Food.findOne({ [property || 'name']: value });
+  return food;
+};
+
+module.exports = { newCreateFood, getAllFoods, getAllFoodsByFields, getFoodByProperty };
