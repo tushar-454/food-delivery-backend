@@ -1,5 +1,5 @@
 const { getFoodByIds } = require('../../services/v1/food');
-const { createNewOrder, getAllOrders } = require('../../services/v1/order');
+const { createNewOrder, getAllOrders, updateOrderStatus } = require('../../services/v1/order');
 
 const createOrder = async (req, res, next) => {
   try {
@@ -42,4 +42,19 @@ const getOrders = async (req, res, next) => {
   return null;
 };
 
-module.exports = { createOrder, getOrders };
+const updateOrder = async (req, res, next) => {
+  try {
+    const { orderId } = req.params;
+    const { status } = req.body;
+    if (status !== 'canceled' && status !== 'pending') {
+      return res.status(400).json({ error: 'User bad request' });
+    }
+    const order = await updateOrderStatus(orderId, status);
+    return res.status(200).json(order);
+  } catch (error) {
+    next(error);
+  }
+  return null;
+};
+
+module.exports = { createOrder, getOrders, updateOrder };

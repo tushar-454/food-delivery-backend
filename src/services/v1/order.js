@@ -11,4 +11,9 @@ const createNewOrder = async ({ userId, foodItem, total }) => {
 
 const getAllOrders = (userId) => Order.find({ userId }).sort({ createdAt: -1 });
 
-module.exports = { createNewOrder, getAllOrders };
+const updateOrderStatus = (orderId, status) => {
+  const order = Order.findByIdAndUpdate(orderId, { status }, { new: true });
+  return order;
+};
+
+module.exports = { createNewOrder, getAllOrders, updateOrderStatus };
