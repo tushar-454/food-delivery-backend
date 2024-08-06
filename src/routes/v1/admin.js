@@ -14,7 +14,7 @@ const {
   deleteFood,
   deleteFoods,
 } = require('../../controllers/v1/food');
-const { getUsers, updateUserAdmin } = require('../../controllers/v1/user');
+const { getUsers, updateUserAdmin, deleteUserAdmin } = require('../../controllers/v1/user');
 
 router.post('/category', createCategory);
 router.get('/categories', getCategories);
@@ -29,5 +29,6 @@ router.delete('/food/:id', deleteFood);
 router.delete('/foods/:id', deleteFoods);
 router.get('/users', getUsers);
 router.put('/user/:id', updateUserAdmin);
+router.delete('/user/:id', deleteUserAdmin);
 
 module.exports = router;
