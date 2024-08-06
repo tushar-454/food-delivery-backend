@@ -23,4 +23,9 @@ const deleteAUser = (id) => {
   return user;
 };
 
-module.exports = { createNewUser, getUserByProperty, deleteAUser, updateAUser };
+const getAllUsers = () => {
+  const users = User.find().select({ password: 0 });
+  return users;
+};
+
+module.exports = { createNewUser, getUserByProperty, deleteAUser, updateAUser, getAllUsers };

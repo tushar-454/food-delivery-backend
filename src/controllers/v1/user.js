@@ -6,6 +6,7 @@ const {
   getUserByProperty,
   deleteAUser,
   updateAUser,
+  getAllUsers,
 } = require('../../services/v1/user');
 
 const getCategories = async (req, res, next) => {
@@ -97,4 +98,15 @@ const deleteUser = async (req, res, next) => {
   }
   return null;
 };
-module.exports = { getCategories, getFoods, createUser, getUser, deleteUser, updateUser };
+
+const getUsers = async (req, res, next) => {
+  try {
+    const users = await getAllUsers();
+    return res.status(200).json(users);
+  } catch (error) {
+    next(error);
+  }
+  return null;
+};
+
+module.exports = { getCategories, getFoods, createUser, getUser, deleteUser, updateUser, getUsers };
