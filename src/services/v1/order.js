@@ -9,7 +9,12 @@ const createNewOrder = async ({ userId, foodItem, total }) => {
   return order.save();
 };
 
-const getAllOrders = (userId) => Order.find({ userId }).sort({ createdAt: -1 });
+const getAllOrders = (userId) => {
+  if (userId) {
+    return Order.find({ userId }).sort({ createdAt: -1 });
+  }
+  return Order.find().sort({ createdAt: -1 }).populate('userId', 'address _id role name email');
+};
 
 const updateOrderStatus = (orderId, status) => {
   const order = Order.findByIdAndUpdate(orderId, { status }, { new: true });

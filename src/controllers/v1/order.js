@@ -57,4 +57,14 @@ const updateOrder = async (req, res, next) => {
   return null;
 };
 
-module.exports = { createOrder, getOrders, updateOrder };
+const getOrdersAdmin = async (req, res, next) => {
+  try {
+    const orders = await getAllOrders();
+    return res.status(200).json(orders);
+  } catch (error) {
+    next(error);
+  }
+  return null;
+};
+
+module.exports = { createOrder, getOrders, updateOrder, getOrdersAdmin };
