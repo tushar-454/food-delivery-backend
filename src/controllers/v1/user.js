@@ -1,6 +1,6 @@
 const { getAllCategories } = require('../../services/v1/category');
 const { getAllFoods } = require('../../services/v1/food');
-const { createNewUser, getUserByProperty } = require('../../services/v1/user');
+const { createNewUser, getUserByProperty, deleteAUser } = require('../../services/v1/user');
 
 const getCategories = async (req, res, next) => {
   try {
@@ -54,4 +54,18 @@ const getUser = async (req, res, next) => {
   return null;
 };
 
-module.exports = { getCategories, getFoods, createUser, getUser };
+const deleteUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await getUserByProperty('_id', id);
+    if (!user) {
+      return res.status(400).json({ error: 'User bad request' });
+    }
+    await deleteAUser(id);
+    return res.status(204).json(null);
+  } catch (error) {
+    next(error);
+  }
+  return null;
+};
+module.exports = { getCategories, getFoods, createUser, getUser, deleteUser };

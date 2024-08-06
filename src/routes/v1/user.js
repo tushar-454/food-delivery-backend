@@ -1,9 +1,16 @@
 const router = require('express').Router();
-const { getCategories, getFoods, createUser, getUser } = require('../../controllers/v1/user');
+const {
+  getCategories,
+  getFoods,
+  createUser,
+  getUser,
+  deleteUser,
+} = require('../../controllers/v1/user');
 const { createCart, getCarts, updateCarts, deleteCart } = require('../../controllers/v1/cart');
 
 router.post('/', createUser);
 router.get('/:email', getUser);
+router.delete('/:id', deleteUser);
 router.get('/categories', getCategories);
 router.get('/foods', getFoods);
 router.post('/cart', createCart);

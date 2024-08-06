@@ -14,4 +14,9 @@ const getUserByProperty = (property, value) => {
   return user;
 };
 
-module.exports = { createNewUser, getUserByProperty };
+const deleteAUser = (id) => {
+  const user = User.findByIdAndDelete(id);
+  return user;
+};
+
+module.exports = { createNewUser, getUserByProperty, deleteAUser };
