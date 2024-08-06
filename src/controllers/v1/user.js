@@ -27,7 +27,8 @@ const createUser = async (req, res, next) => {
     /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|outlook\.com|hotmail\.com|live\.com)$/;
   try {
     const { name, email, password } = req.body;
-    if (!emailRegex.test(email)) {
+    const userExists = await getUserByProperty('email', email);
+    if (!emailRegex.test(email) || !!userExists) {
       return res.status(400).json({ error: 'User bad request' });
     }
     // TODO: 'Implement the user find by email service if exists return 409';
