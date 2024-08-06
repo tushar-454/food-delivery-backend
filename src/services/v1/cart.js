@@ -6,7 +6,7 @@ const createNewCart = ({ userId, image, name, price, quantity, total }) => {
 };
 
 const getAllCarts = (id) => {
-  const userCarts = Cart.find({ userId: id }).populate('userId');
+  const userCarts = Cart.find({ userId: id });
   return userCarts;
 };
 
