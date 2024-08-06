@@ -21,4 +21,13 @@ const createToken = async (req, res, next) => {
   return null;
 };
 
-module.exports = { createToken };
+const deleteToken = async (req, res, next) => {
+  try {
+    return res.status(204).clearCookie('token').json(null);
+  } catch (error) {
+    next(error);
+  }
+  return null;
+};
+
+module.exports = { createToken, deleteToken };

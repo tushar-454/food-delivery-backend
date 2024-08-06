@@ -1,6 +1,7 @@
 const router = require('express').Router();
-const { createToken } = require('../../controllers/v1/token');
+const { createToken, deleteToken } = require('../../controllers/v1/token');
 
 router.post('/create', createToken);
+router.delete('/delete', deleteToken);
 
 module.exports = router;
