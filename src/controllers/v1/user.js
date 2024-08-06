@@ -109,4 +109,31 @@ const getUsers = async (req, res, next) => {
   return null;
 };
 
-module.exports = { getCategories, getFoods, createUser, getUser, deleteUser, updateUser, getUsers };
+const updateUserAdmin = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    let { role } = req.body;
+    role = role.toLowerCase();
+    const user = await getUserByProperty('_id', id);
+    if (!user || (role !== 'admin' && role !== 'user')) {
+      return res.status(400).json({ error: 'User bad request' });
+    }
+    const updatedUser = await updateAUser(id, { role });
+    return res.status(200).json(updatedUser);
+  } catch (error) {
+    next(error);
+  }
+
+  return null;
+};
+
+module.exports = {
+  getCategories,
+  getFoods,
+  createUser,
+  getUser,
+  deleteUser,
+  updateUser,
+  getUsers,
+  updateUserAdmin,
+};
