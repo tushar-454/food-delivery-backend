@@ -4,12 +4,12 @@ const createToken = async (req, res, next) => {
   try {
     const emailRegex =
       /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|outlook\.com|hotmail\.com|live\.com)$/;
-    const { role, email } = req.body;
-    if ((role !== 'admin' && role !== 'user') || !emailRegex.test(email)) {
+    const { email } = req.body;
+    if (!emailRegex.test(email)) {
       return res.status(400).json({ error: 'User bad request' });
     }
-    const token = jwt.sign({ role, email }, process.env.JWT_SECRET, {
-      expiresIn: 60 * 1,
+    const token = jwt.sign({ email }, process.env.JWT_SECRET, {
+      expiresIn: 60 * 5,
     });
     return res
       .status(201)

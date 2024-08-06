@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { getUserByProperty } = require('../services/v1/user');
 
-const verifyUser = async (req, res, next) => {
+const verifyAdmin = async (req, res, next) => {
   try {
     const { token } = req.cookies;
     if (!token) {
@@ -25,4 +25,4 @@ const verifyUser = async (req, res, next) => {
   return null;
 };
 
-module.exports = verifyUser;
+module.exports = verifyAdmin;
