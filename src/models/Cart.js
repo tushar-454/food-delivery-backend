@@ -6,10 +6,18 @@ const cartSchema = new Schema({
     ref: 'User',
     required: [true, 'User is required'],
   },
-  foodId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Food',
-    required: [true, 'Food is required'],
+  image: {
+    type: String,
+    required: [true, 'Image is required'],
+  },
+  name: {
+    type: String,
+    required: [true, 'Name is required'],
+    trim: true,
+  },
+  price: {
+    type: Number,
+    required: [true, 'Price is required'],
   },
   quantity: {
     type: Number,

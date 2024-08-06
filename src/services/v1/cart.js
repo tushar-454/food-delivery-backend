@@ -1,8 +1,13 @@
 const Cart = require('../../models/Cart');
 
-const createNewCart = ({ userId, foodId, quantity, total }) => {
-  const cart = new Cart({ userId, foodId, quantity, total });
+const createNewCart = ({ userId, image, name, price, quantity, total }) => {
+  const cart = new Cart({ userId, image, name, price, quantity, total });
   return cart.save();
 };
 
-module.exports = { createNewCart };
+const getAllCarts = (id) => {
+  const userCarts = Cart.find({ userId: id }).populate('userId');
+  return userCarts;
+};
+
+module.exports = { createNewCart, getAllCarts };
