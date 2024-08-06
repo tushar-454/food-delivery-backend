@@ -9,4 +9,9 @@ const createNewUser = ({ name, email, password }) => {
   });
 };
 
-module.exports = { createNewUser };
+const getUserByProperty = (property, value) => {
+  const user = User.findOne({ [property]: value });
+  return user;
+};
+
+module.exports = { createNewUser, getUserByProperty };

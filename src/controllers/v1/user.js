@@ -1,6 +1,6 @@
 const { getAllCategories } = require('../../services/v1/category');
 const { getAllFoods } = require('../../services/v1/food');
-const { createNewUser } = require('../../services/v1/user');
+const { createNewUser, getUserByProperty } = require('../../services/v1/user');
 
 const getCategories = async (req, res, next) => {
   try {
@@ -39,4 +39,18 @@ const createUser = async (req, res, next) => {
   return null;
 };
 
-module.exports = { getCategories, getFoods, createUser };
+const getUser = async (req, res, next) => {
+  try {
+    const { email } = req.params;
+    const user = await getUserByProperty('email', email);
+    if (!user) {
+      return res.status(400).json({ error: 'User bad request' });
+    }
+    return res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
+  return null;
+};
+
+module.exports = { getCategories, getFoods, createUser, getUser };
