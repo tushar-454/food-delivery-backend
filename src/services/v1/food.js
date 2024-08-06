@@ -45,6 +45,17 @@ const deleteFoodsById = (id) => {
   return Food.deleteMany({ _id: { $in: ids } });
 };
 
+const getFoodByIds = (foodsItems) => {
+  const foodsIds = foodsItems.map((food) => food.foodId);
+  const foods = Food.find({ _id: { $in: foodsIds } }).select({
+    name: 1,
+    price: 1,
+    discount: 1,
+    isAvailable: 1,
+  });
+  return foods;
+};
+
 module.exports = {
   newCreateFood,
   getAllFoods,
@@ -53,4 +64,5 @@ module.exports = {
   newUpdatedFood,
   deleteFoodById,
   deleteFoodsById,
+  getFoodByIds,
 };

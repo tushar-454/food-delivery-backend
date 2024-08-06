@@ -8,6 +8,7 @@ const {
   deleteUser,
 } = require('../../controllers/v1/user');
 const { createCart, getCarts, updateCarts, deleteCart } = require('../../controllers/v1/cart');
+const { createOrder } = require('../../controllers/v1/order');
 
 router.post('/', createUser);
 router.get('/:email', getUser);
@@ -19,5 +20,6 @@ router.post('/cart', createCart);
 router.get('/carts/:id', getCarts);
 router.put('/cart/:id', updateCarts);
 router.delete('/cart/:id', deleteCart);
+router.post('/order', createOrder);
 
 module.exports = router;

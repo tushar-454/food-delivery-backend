@@ -9,14 +9,22 @@ const orderSchema = new Schema({
   orderItems: {
     type: [
       {
-        foodId: {
-          type: Schema.Types.ObjectId,
-          ref: 'Food',
-          required: [true, 'Food is required'],
+        name: {
+          type: String,
+          required: [true, 'Name is required'],
+          trim: true,
+        },
+        price: {
+          type: Number,
+          required: [true, 'Price is required'],
         },
         quantity: {
           type: Number,
           required: [true, 'Quantity is required'],
+        },
+        discount: {
+          type: Number,
+          required: [true, 'Discount is required'],
         },
       },
     ],
