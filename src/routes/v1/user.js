@@ -6,6 +6,7 @@ const {
   getUser,
   updateUser,
   deleteUser,
+  loginUser,
 } = require('../../controllers/v1/user');
 const { createCart, getCarts, updateCarts, deleteCart } = require('../../controllers/v1/cart');
 const { createOrder, getOrders, updateOrder } = require('../../controllers/v1/order');
@@ -23,5 +24,6 @@ router.delete('/cart/:id', deleteCart);
 router.post('/order', createOrder);
 router.get('/orders/:userId', getOrders);
 router.put('/order/:orderId', updateOrder);
+router.post('/login', loginUser);
 
 module.exports = router;

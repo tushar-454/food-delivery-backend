@@ -142,6 +142,24 @@ const deleteUserAdmin = async (req, res, next) => {
   return null;
 };
 
+const loginUser = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const user = await getUserByProperty('email', email);
+    if (!user) {
+      return res.status(400).json({ error: 'User bad request' });
+    }
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    if (!isPasswordCorrect) {
+      return res.status(400).json({ error: 'User bad request' });
+    }
+    return res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
+  return null;
+};
+
 module.exports = {
   getCategories,
   getFoods,
@@ -152,4 +170,5 @@ module.exports = {
   getUsers,
   updateUserAdmin,
   deleteUserAdmin,
+  loginUser,
 };
