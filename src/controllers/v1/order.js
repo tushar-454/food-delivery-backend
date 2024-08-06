@@ -67,4 +67,25 @@ const getOrdersAdmin = async (req, res, next) => {
   return null;
 };
 
-module.exports = { createOrder, getOrders, updateOrder, getOrdersAdmin };
+const updateOrderAdmin = async (req, res, next) => {
+  try {
+    const { orderId } = req.params;
+    const { status } = req.body;
+    if (
+      status !== 'canceled' &&
+      status !== 'pending' &&
+      status !== 'foodProcessing' &&
+      status !== 'ofd' &&
+      status !== 'delivered'
+    ) {
+      return res.status(400).json({ error: 'User bad request' });
+    }
+    const order = await updateOrderStatus(orderId, status);
+    return res.status(200).json(order);
+  } catch (error) {
+    next(error);
+  }
+  return null;
+};
+
+module.exports = { createOrder, getOrders, updateOrder, getOrdersAdmin, updateOrderAdmin };
