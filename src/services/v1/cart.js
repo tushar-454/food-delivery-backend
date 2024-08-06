@@ -26,4 +26,9 @@ const updateNewCart = (cartItem, quantity) => {
   return null;
 };
 
-module.exports = { createNewCart, getAllCarts, getCartByProperty, updateNewCart };
+const deleteACart = (id) => {
+  const cart = Cart.findByIdAndDelete(id);
+  return cart;
+};
+
+module.exports = { createNewCart, getAllCarts, getCartByProperty, updateNewCart, deleteACart };

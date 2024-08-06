@@ -3,6 +3,7 @@ const {
   getAllCarts,
   getCartByProperty,
   updateNewCart,
+  deleteACart,
 } = require('../../services/v1/cart');
 
 const createCart = async (req, res, next) => {
@@ -51,4 +52,19 @@ const updateCarts = async (req, res, next) => {
   return null;
 };
 
-module.exports = { createCart, getCarts, updateCarts };
+const deleteCart = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const cartExists = await getCartByProperty('_id', id);
+    if (!cartExists) {
+      return res.status(400).json({ error: 'User bad request' });
+    }
+    await deleteACart(id);
+    return res.status(204).json(null);
+  } catch (error) {
+    next(error);
+  }
+  return null;
+};
+
+module.exports = { createCart, getCarts, updateCarts, deleteCart };
