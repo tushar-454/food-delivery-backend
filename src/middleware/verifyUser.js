@@ -12,6 +12,9 @@ const verifyUser = async (req, res, next) => {
     if (!userExists) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
+    if (userExists.role !== 'user') {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
     req.user = userExists;
     return next();
   } catch (error) {
