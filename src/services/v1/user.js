@@ -14,9 +14,13 @@ const getUserByProperty = (property, value) => {
   return user;
 };
 
+const updateAUser = (id, updatedFields) => {
+  User.findByIdAndUpdate(id, updatedFields, { new: true }).exec();
+};
+
 const deleteAUser = (id) => {
   const user = User.findByIdAndDelete(id);
   return user;
 };
 
-module.exports = { createNewUser, getUserByProperty, deleteAUser };
+module.exports = { createNewUser, getUserByProperty, deleteAUser, updateAUser };

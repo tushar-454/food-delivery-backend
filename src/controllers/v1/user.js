@@ -1,6 +1,12 @@
+const bcrypt = require('bcrypt');
 const { getAllCategories } = require('../../services/v1/category');
 const { getAllFoods } = require('../../services/v1/food');
-const { createNewUser, getUserByProperty, deleteAUser } = require('../../services/v1/user');
+const {
+  createNewUser,
+  getUserByProperty,
+  deleteAUser,
+  updateAUser,
+} = require('../../services/v1/user');
 
 const getCategories = async (req, res, next) => {
   try {
@@ -54,6 +60,29 @@ const getUser = async (req, res, next) => {
   return null;
 };
 
+const updateUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { name, password, street, city, zip, country, place } = req.body;
+    const user = await getUserByProperty('_id', id);
+    if (!user) {
+      return res.status(400).json({ error: 'User bad request' });
+    }
+    const updatedFields = { name, address: { street, city, zip, country, place } };
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      const hash = await bcrypt.hash(password, salt);
+      updatedFields.password = hash;
+    }
+    const updatedUser = await updateAUser(id, updatedFields);
+    return res.status(200).json(updatedUser);
+  } catch (error) {
+    next(error);
+  }
+
+  return null;
+};
+
 const deleteUser = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -68,4 +97,4 @@ const deleteUser = async (req, res, next) => {
   }
   return null;
 };
-module.exports = { getCategories, getFoods, createUser, getUser, deleteUser };
+module.exports = { getCategories, getFoods, createUser, getUser, deleteUser, updateUser };
