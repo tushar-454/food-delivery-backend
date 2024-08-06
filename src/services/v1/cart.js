@@ -10,4 +10,20 @@ const getAllCarts = (id) => {
   return userCarts;
 };
 
-module.exports = { createNewCart, getAllCarts };
+const getCartByProperty = (property, value) => {
+  const cart = Cart.findOne({ [property]: value });
+  return cart;
+};
+
+const updateNewCart = (cartItem, quantity) => {
+  if (quantity) {
+    const updatedCart = Cart.findByIdAndUpdate(cartItem.id, {
+      quantity: parseInt(quantity, 10),
+      total: parseInt(quantity, 10) * cartItem.price,
+    });
+    return updatedCart;
+  }
+  return null;
+};
+
+module.exports = { createNewCart, getAllCarts, getCartByProperty, updateNewCart };

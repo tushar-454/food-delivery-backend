@@ -1,4 +1,9 @@
-const { createNewCart, getAllCarts } = require('../../services/v1/cart');
+const {
+  createNewCart,
+  getAllCarts,
+  getCartByProperty,
+  updateNewCart,
+} = require('../../services/v1/cart');
 
 const createCart = async (req, res, next) => {
   const regex = /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|bmp|webp))$/;
@@ -27,4 +32,23 @@ const getCarts = async (req, res, next) => {
   return null;
 };
 
-module.exports = { createCart, getCarts };
+const updateCarts = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { quantity } = req.body;
+    const cartExists = await getCartByProperty('_id', id);
+    if (!cartExists) {
+      return res.status(400).json({ error: 'User bad request' });
+    }
+    const updatedCart = await updateNewCart(cartExists, quantity);
+    if (!updatedCart) {
+      return res.status(409).json({ error: 'User bad request' });
+    }
+    return res.status(200).json(null);
+  } catch (error) {
+    next(error);
+  }
+  return null;
+};
+
+module.exports = { createCart, getCarts, updateCarts };
