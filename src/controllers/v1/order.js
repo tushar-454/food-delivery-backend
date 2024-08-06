@@ -1,5 +1,5 @@
 const { getFoodByIds } = require('../../services/v1/food');
-const { createNewOrder } = require('../../services/v1/order');
+const { createNewOrder, getAllOrders } = require('../../services/v1/order');
 
 const createOrder = async (req, res, next) => {
   try {
@@ -31,4 +31,15 @@ const createOrder = async (req, res, next) => {
   return null;
 };
 
-module.exports = { createOrder };
+const getOrders = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const orders = await getAllOrders(userId);
+    return res.status(200).json(orders);
+  } catch (error) {
+    next(error);
+  }
+  return null;
+};
+
+module.exports = { createOrder, getOrders };

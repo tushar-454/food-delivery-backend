@@ -9,4 +9,6 @@ const createNewOrder = async ({ userId, foodItem, total }) => {
   return order.save();
 };
 
-module.exports = { createNewOrder };
+const getAllOrders = (userId) => Order.find({ userId }).sort({ createdAt: -1 });
+
+module.exports = { createNewOrder, getAllOrders };
