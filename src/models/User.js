@@ -10,6 +10,7 @@ const userSchema = new Schema({
     type: String,
     required: [true, 'Name is required'],
     maxlangth: 20,
+    trim: true,
   },
   email: {
     type: String,
@@ -24,23 +25,18 @@ const userSchema = new Schema({
   address: {
     street: {
       type: String,
-      required: [true, 'Street is required'],
     },
     city: {
       type: String,
-      required: [true, 'City is required'],
     },
     zip: {
       type: String,
-      required: [true, 'Zip is required'],
     },
     country: {
       type: String,
-      required: [true, 'Country is required'],
     },
     place: {
       type: String,
-      required: [true, 'Place is required'],
     },
   },
 });

@@ -9,7 +9,8 @@
   },
   "rules": {
     "no-console": "off",
-    "object-curly-newline":"off"
+    "object-curly-newline":"off",
+    "operator-linebreak":"off"
   },
   "plugins": ["prettier"]
 }
