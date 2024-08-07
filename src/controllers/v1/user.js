@@ -153,7 +153,12 @@ const loginUser = async (req, res, next) => {
     if (!isPasswordCorrect) {
       return res.status(400).json({ error: 'User bad request' });
     }
-    return res.status(200).json(user);
+    return res.status(200).json({
+      _id: user.id,
+      role: user.role,
+      name: user.name,
+      email: user.email,
+    });
   } catch (error) {
     next(error);
   }

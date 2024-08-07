@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { getUserByProperty } = require('../../services/v1/user');
 
 const createToken = async (req, res, next) => {
   try {
@@ -30,4 +31,27 @@ const deleteToken = async (req, res, next) => {
   return null;
 };
 
-module.exports = { createToken, deleteToken };
+const doUserLogin = async (req, res, next) => {
+  try {
+    const { token } = req.cookies;
+    if (!token) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+    const { email } = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await getUserByProperty('email', email);
+    if (!user) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+    return res.status(200).json({
+      _id: user.id,
+      role: user.role,
+      name: user.name,
+      email: user.email,
+    });
+  } catch (error) {
+    next(error);
+  }
+  return null;
+};
+
+module.exports = { createToken, deleteToken, doUserLogin };
