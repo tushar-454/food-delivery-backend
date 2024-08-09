@@ -23,7 +23,8 @@ const createCategory = async (req, res, next) => {
 
 const getCategories = async (req, res, next) => {
   try {
-    const categories = await getAllCategories();
+    const { fields } = req.query;
+    const categories = await getAllCategories(fields);
     return res.status(200).json(categories);
   } catch (error) {
     next(error);

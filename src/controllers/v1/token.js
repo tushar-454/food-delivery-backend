@@ -10,7 +10,7 @@ const createToken = async (req, res, next) => {
       return res.status(400).json({ error: 'User bad request' });
     }
     const token = jwt.sign({ email }, process.env.JWT_SECRET, {
-      expiresIn: 60 * 5,
+      expiresIn: 60 * 60,
     });
     return res
       .status(201)

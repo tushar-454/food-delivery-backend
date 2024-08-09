@@ -6,7 +6,14 @@ const createNewCategory = async ({ image, name, category }) => {
   return newCategory;
 };
 
-const getAllCategories = () => Category.find();
+const getAllCategories = (fields) => {
+  if (!fields) {
+    return Category.find();
+  }
+  const fieldsArr = fields.split(',');
+  const categories = Category.find({}, fieldsArr);
+  return categories;
+};
 
 const getCategoryByProperty = (property, value) => {
   const category = Category.findOne({ [property || 'name']: value });
