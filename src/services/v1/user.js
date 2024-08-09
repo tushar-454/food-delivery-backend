@@ -15,7 +15,8 @@ const getUserByProperty = (property, value) => {
 };
 
 const updateAUser = (id, updatedFields) => {
-  User.findByIdAndUpdate(id, updatedFields, { new: true }).exec();
+  const user = User.findByIdAndUpdate(id, updatedFields, { new: true }).exec();
+  return user;
 };
 
 const deleteAUser = (id) => {

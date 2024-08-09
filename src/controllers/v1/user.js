@@ -64,18 +64,19 @@ const getUser = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { name, password, street, city, zip, country, place } = req.body;
+    const { name, password, street, city, zip, country, place, state } = req.body;
     const user = await getUserByProperty('_id', id);
     if (!user) {
       return res.status(400).json({ error: 'User bad request' });
     }
-    const updatedFields = { name, address: { street, city, zip, country, place } };
+    const updatedFields = { name, address: { street, city, zip, country, place, state } };
     if (password) {
       const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash(password, salt);
       updatedFields.password = hash;
     }
     const updatedUser = await updateAUser(id, updatedFields);
+    console.log(updatedUser);
     return res.status(200).json(updatedUser);
   } catch (error) {
     next(error);
@@ -158,6 +159,7 @@ const loginUser = async (req, res, next) => {
       role: user.role,
       name: user.name,
       email: user.email,
+      address: user?.address,
     });
   } catch (error) {
     next(error);

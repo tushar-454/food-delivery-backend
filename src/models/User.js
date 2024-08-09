@@ -43,6 +43,10 @@ const userSchema = new Schema({
       type: String,
       trim: true,
     },
+    state: {
+      type: String,
+      trim: true,
+    },
   },
 });
 

@@ -47,6 +47,7 @@ const doUserLogin = async (req, res, next) => {
       role: user.role,
       name: user.name,
       email: user.email,
+      address: user?.address,
     });
   } catch (error) {
     next(error);
