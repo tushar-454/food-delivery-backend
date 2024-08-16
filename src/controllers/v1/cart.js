@@ -9,11 +9,11 @@ const {
 const createCart = async (req, res, next) => {
   const regex = /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|bmp|webp))$/;
   try {
-    const { userId, image, name, price, quantity, total } = req.body;
+    const { userId, foodId, image, name, price, quantity, total } = req.body;
     if (!regex.test(image)) {
       return res.status(400).json({ error: 'User bad request' });
     }
-    const cart = await createNewCart({ userId, image, name, price, quantity, total });
+    const cart = await createNewCart({ userId, foodId, image, name, price, quantity, total });
     return res.status(201).json(cart);
   } catch (error) {
     next();

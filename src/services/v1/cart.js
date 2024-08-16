@@ -1,7 +1,7 @@
 const Cart = require('../../models/Cart');
 
-const createNewCart = ({ userId, image, name, price, quantity, total }) => {
-  const cart = new Cart({ userId, image, name, price, quantity, total });
+const createNewCart = ({ userId, foodId, image, name, price, quantity, total }) => {
+  const cart = new Cart({ userId, foodId, image, name, price, quantity, total });
   return cart.save();
 };
 
