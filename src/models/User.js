@@ -22,6 +22,10 @@ const userSchema = new Schema({
     required: [true, 'Password is required'],
     minlength: 6,
   },
+  phone: {
+    type: String,
+    trim: true,
+  },
   address: {
     street: {
       type: String,

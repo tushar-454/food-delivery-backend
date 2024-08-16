@@ -13,7 +13,9 @@ const getAllOrders = (userId) => {
   if (userId) {
     return Order.find({ userId }).sort({ createdAt: -1 });
   }
-  return Order.find().sort({ createdAt: -1 }).populate('userId', 'address _id role name email');
+  return Order.find()
+    .sort({ createdAt: -1 })
+    .populate('userId', 'address _id role name email phone');
 };
 
 const updateOrderStatus = (orderId, status) => {

@@ -1,3 +1,6 @@
+const mongoose = require('mongoose');
+
+const { ObjectId } = mongoose.Types;
 const Food = require('../../models/Food');
 
 const newCreateFood = ({ image, name, category, price, description }) => {
@@ -46,7 +49,7 @@ const deleteFoodsById = (id) => {
 };
 
 const getFoodByIds = (foodsItems) => {
-  const foodsIds = foodsItems.map((food) => food.foodId);
+  const foodsIds = foodsItems.map((food) => ObjectId(food.foodId));
   const foods = Food.find({ _id: { $in: foodsIds } }).select({
     name: 1,
     price: 1,

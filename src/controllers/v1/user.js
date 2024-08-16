@@ -64,12 +64,12 @@ const getUser = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { name, password, street, city, zip, country, place, state } = req.body;
+    const { name, password, street, city, zip, country, place, state, phone } = req.body;
     const user = await getUserByProperty('_id', id);
     if (!user) {
       return res.status(400).json({ error: 'User bad request' });
     }
-    const updatedFields = { name, address: { street, city, zip, country, place, state } };
+    const updatedFields = { name, phone, address: { street, city, zip, country, place, state } };
     if (password) {
       const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash(password, salt);
