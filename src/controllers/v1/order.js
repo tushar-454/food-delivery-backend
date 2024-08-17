@@ -46,7 +46,7 @@ const updateOrder = async (req, res, next) => {
   try {
     const { orderId } = req.params;
     const { status } = req.body;
-    if (status !== 'canceled' && status !== 'pending') {
+    if (status !== 'canceled') {
       return res.status(400).json({ error: 'User bad request' });
     }
     const order = await updateOrderStatus(orderId, status);
