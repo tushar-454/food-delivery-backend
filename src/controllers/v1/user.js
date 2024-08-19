@@ -21,7 +21,8 @@ const getCategories = async (req, res, next) => {
 
 const getFoods = async (req, res, next) => {
   try {
-    const foods = await getAllFoods();
+    const { category } = req.query;
+    const foods = await getAllFoods(category);
     res.status(200).json(foods);
   } catch (error) {
     next(error);

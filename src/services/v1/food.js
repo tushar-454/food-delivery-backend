@@ -5,7 +5,12 @@ const newCreateFood = ({ image, name, category, price, description }) => {
   return newFood.save();
 };
 
-const getAllFoods = () => Food.find();
+const getAllFoods = (category) => {
+  if (category) {
+    return Food.find({ category });
+  }
+  return Food.find();
+};
 
 const getAllFoodsByFields = (fields) => {
   const fieldsParams = fields;
