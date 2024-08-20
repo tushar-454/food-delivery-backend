@@ -2,30 +2,30 @@
 const bcrypt = require('bcrypt');
 const User = require('../../models/User');
 
-const createNewUser = ({ name, email, password }) => {
-  bcrypt.hash(password, 10).then((hash) => {
-    const newUser = new User({ name, email, password: hash });
+const createNewUser = async ({ name, email, password }) => {
+  bcrypt.hash(password, 10).then(async (hash) => {
+    const newUser = await new User({ name, email, password: hash });
     return newUser.save();
   });
 };
 
-const getUserByProperty = (property, value) => {
-  const user = User.findOne({ [property]: value });
+const getUserByProperty = async (property, value) => {
+  const user = await User.findOne({ [property]: value });
   return user;
 };
 
-const updateAUser = (id, updatedFields) => {
-  const user = User.findByIdAndUpdate(id, updatedFields, { new: true }).exec();
+const updateAUser = async (id, updatedFields) => {
+  const user = await User.findByIdAndUpdate(id, updatedFields, { new: true }).exec();
   return user;
 };
 
-const deleteAUser = (id) => {
-  const user = User.findByIdAndDelete(id);
+const deleteAUser = async (id) => {
+  const user = await User.findByIdAndDelete(id);
   return user;
 };
 
-const getAllUsers = () => {
-  const users = User.find().select({ password: 0 });
+const getAllUsers = async () => {
+  const users = await User.find().select({ password: 0 });
   return users;
 };
 

@@ -9,10 +9,10 @@ const {
   getAllUsers,
 } = require('../../services/v1/user');
 
-const getCategories = async (req, res, next) => {
+const getCategories = async (_req, res, next) => {
   try {
     const categories = await getAllCategories();
-    res.status(200).json(categories);
+    res.status(200).json({ status: 200, categories });
   } catch (error) {
     next(error);
   }
@@ -23,7 +23,7 @@ const getFoods = async (req, res, next) => {
   try {
     const { category } = req.query;
     const foods = await getAllFoods(category);
-    res.status(200).json(foods);
+    res.status(200).json({ status: 200, foods });
   } catch (error) {
     next(error);
   }
@@ -37,11 +37,11 @@ const createUser = async (req, res, next) => {
     const { name, email, password } = req.body;
     const userExists = await getUserByProperty('email', email);
     if (!emailRegex.test(email) || !!userExists) {
-      return res.status(400).json({ error: 'User bad request' });
+      return res.status(400).json({ status: 400, error: 'Bad request: Invalid input data.' });
     }
     // TODO: 'Implement the user find by email service if exists return 409';
     const user = await createNewUser({ name, email, password });
-    return res.status(201).json(user);
+    return res.status(201).json({ status: 201, user });
   } catch (error) {
     next(error);
   }
@@ -53,9 +53,9 @@ const getUser = async (req, res, next) => {
     const { email } = req.params;
     const user = await getUserByProperty('email', email);
     if (!user) {
-      return res.status(400).json({ error: 'User bad request' });
+      return res.status(400).json({ status: 400, error: 'Bad request: Invalid input data.' });
     }
-    return res.status(200).json(user);
+    return res.status(200).json({ status: 200, user });
   } catch (error) {
     next(error);
   }
@@ -68,7 +68,7 @@ const updateUser = async (req, res, next) => {
     const { name, password, street, city, zip, country, place, state, phone } = req.body;
     const user = await getUserByProperty('_id', id);
     if (!user) {
-      return res.status(400).json({ error: 'User bad request' });
+      return res.status(400).json({ status: 400, error: 'Bad request: Invalid input data.' });
     }
     const updatedFields = { name, phone, address: { street, city, zip, country, place, state } };
     if (password) {
@@ -77,8 +77,7 @@ const updateUser = async (req, res, next) => {
       updatedFields.password = hash;
     }
     const updatedUser = await updateAUser(id, updatedFields);
-    console.log(updatedUser);
-    return res.status(200).json(updatedUser);
+    return res.status(200).json({ status: 200, user: updatedUser });
   } catch (error) {
     next(error);
   }
@@ -91,7 +90,7 @@ const deleteUser = async (req, res, next) => {
     const { id } = req.params;
     const user = await getUserByProperty('_id', id);
     if (!user) {
-      return res.status(400).json({ error: 'User bad request' });
+      return res.status(400).json({ status: 400, error: 'Bad request: Invalid input data.' });
     }
     await deleteAUser(id);
     return res.status(204).json(null);
@@ -101,10 +100,10 @@ const deleteUser = async (req, res, next) => {
   return null;
 };
 
-const getUsers = async (req, res, next) => {
+const getUsers = async (_req, res, next) => {
   try {
     const users = await getAllUsers();
-    return res.status(200).json(users);
+    return res.status(200).json({ status: 200, users });
   } catch (error) {
     next(error);
   }
@@ -118,10 +117,10 @@ const updateUserAdmin = async (req, res, next) => {
     role = role.toLowerCase();
     const user = await getUserByProperty('_id', id);
     if (!user || (role !== 'admin' && role !== 'user')) {
-      return res.status(400).json({ error: 'User bad request' });
+      return res.status(400).json({ status: 400, error: 'Bad request: Invalid input data.' });
     }
     const updatedUser = await updateAUser(id, { role });
-    return res.status(200).json(updatedUser);
+    return res.status(200).json({ status: 200, user: updatedUser });
   } catch (error) {
     next(error);
   }
@@ -134,7 +133,7 @@ const deleteUserAdmin = async (req, res, next) => {
     const { id } = req.params;
     const user = await getUserByProperty('_id', id);
     if (!user) {
-      return res.status(400).json({ error: 'User bad request' });
+      return res.status(400).json({ status: 400, error: 'Bad request: Invalid input data.' });
     }
     await deleteAUser(id);
     return res.status(204).json(null);
@@ -149,11 +148,11 @@ const loginUser = async (req, res, next) => {
     const { email, password } = req.body;
     const user = await getUserByProperty('email', email);
     if (!user) {
-      return res.status(400).json({ error: 'User bad request' });
+      return res.status(400).json({ status: 400, error: 'Bad request: Invalid input data.' });
     }
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
-      return res.status(400).json({ error: 'User bad request' });
+      return res.status(400).json({ status: 400, error: 'Bad request: Invalid input data.' });
     }
     return res.status(200).json({
       _id: user.id,
