@@ -65,7 +65,7 @@ const deleteCart = async (req, res, next) => {
       return res.status(400).json({ status: 400, error: 'Bad request: Invalid input data.' });
     }
     await deleteACart(id);
-    return res.status(204).json(null);
+    return res.status(200).json({ status: 200 });
   } catch (error) {
     next(error);
   }
