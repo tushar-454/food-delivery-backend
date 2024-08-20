@@ -1,7 +1,7 @@
 const Order = require('../../models/Order');
 
 const createNewOrder = async ({ userId, foodItem, total }) => {
-  const order = new Order({
+  const order = await new Order({
     userId,
     orderItems: foodItem,
     total: total.toFixed(2),
@@ -9,17 +9,19 @@ const createNewOrder = async ({ userId, foodItem, total }) => {
   return order.save();
 };
 
-const getAllOrders = (userId) => {
+const getAllOrders = async (userId) => {
   if (userId) {
-    return Order.find({ userId }).sort({ createdAt: -1 });
+    const orders = await Order.find({ userId }).sort({ createdAt: -1 });
+    return orders;
   }
-  return Order.find()
+  const orders = await Order.find()
     .sort({ createdAt: -1 })
     .populate('userId', 'address _id role name email phone');
+  return orders;
 };
 
-const updateOrderStatus = (orderId, status) => {
-  const order = Order.findByIdAndUpdate(orderId, { status }, { new: true });
+const updateOrderStatus = async (orderId, status) => {
+  const order = await Order.findByIdAndUpdate(orderId, { status }, { new: true });
   return order;
 };
 

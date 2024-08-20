@@ -6,7 +6,7 @@ const createOrder = async (req, res, next) => {
     const { userId, foodsItems } = req.body;
     const food = await getFoodByIds(foodsItems);
     if (!food || food.length === 0) {
-      return res.status(400).json({ error: 'User bad request' });
+      return res.status(400).json({ status: 400, error: 'Bad request: Invalid input data.' });
     }
     const foodItem = foodsItems.map((fItem) => {
       const foodData = food.find((f) => f.id === fItem.foodId);
@@ -23,8 +23,8 @@ const createOrder = async (req, res, next) => {
       }
       return acc + curr.price * curr.quantity;
     }, 0);
-    const order = createNewOrder({ userId, foodItem, total });
-    return res.status(201).json(order);
+    const order = await createNewOrder({ userId, foodItem, total });
+    return res.status(201).json({ status: 201, order });
   } catch (error) {
     next(error);
   }
@@ -35,7 +35,7 @@ const getOrders = async (req, res, next) => {
   try {
     const { userId } = req.params;
     const orders = await getAllOrders(userId);
-    return res.status(200).json(orders);
+    return res.status(200).json({ status: 200, orders });
   } catch (error) {
     next(error);
   }
@@ -47,20 +47,20 @@ const updateOrder = async (req, res, next) => {
     const { orderId } = req.params;
     const { status } = req.body;
     if (status !== 'canceled') {
-      return res.status(400).json({ error: 'User bad request' });
+      return res.status(400).json({ status: 400, error: 'Bad request: Invalid input data.' });
     }
     const order = await updateOrderStatus(orderId, status);
-    return res.status(200).json(order);
+    return res.status(200).json({ status: 200, order });
   } catch (error) {
     next(error);
   }
   return null;
 };
 
-const getOrdersAdmin = async (req, res, next) => {
+const getOrdersAdmin = async (_req, res, next) => {
   try {
     const orders = await getAllOrders();
-    return res.status(200).json(orders);
+    return res.status(200).json({ status: 200, orders });
   } catch (error) {
     next(error);
   }
@@ -78,10 +78,10 @@ const updateOrderAdmin = async (req, res, next) => {
       status !== 'ofd' &&
       status !== 'delivered'
     ) {
-      return res.status(400).json({ error: 'User bad request' });
+      return res.status(400).json({ status: 400, error: 'Bad request: Invalid input data.' });
     }
     const order = await updateOrderStatus(orderId, status);
-    return res.status(200).json(order);
+    return res.status(200).json({ status: 200, order });
   } catch (error) {
     next(error);
   }
