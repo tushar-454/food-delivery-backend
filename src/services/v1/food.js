@@ -1,34 +1,37 @@
 const Food = require('../../models/Food');
 
-const newCreateFood = ({ image, name, category, price, description }) => {
-  const newFood = new Food({ image, name, category, price, description });
+const newCreateFood = async ({ image, name, category, price, description }) => {
+  const newFood = await new Food({ image, name, category, price, description });
   return newFood.save();
 };
 
-const getAllFoods = (category) => {
+const getAllFoods = async (category) => {
   if (category) {
-    return Food.find({ category });
+    const foods = await Food.find({ category });
+    return foods;
   }
-  return Food.find();
+  const foods = await Food.find();
+  return foods;
 };
 
-const getAllFoodsByFields = (fields) => {
+const getAllFoodsByFields = async (fields) => {
   const fieldsParams = fields;
   const fieldsArr = fieldsParams.split(',');
   const projectionFields = {};
   fieldsArr.forEach((field) => {
     projectionFields[field] = 1;
   });
-  return Food.find().select(projectionFields);
+  const foods = await Food.find().select(projectionFields);
+  return foods;
 };
 
-const getFoodByProperty = (property, value) => {
-  const food = Food.findOne({ [property || 'name']: value });
+const getFoodByProperty = async (property, value) => {
+  const food = await Food.findOne({ [property || 'name']: value });
   return food;
 };
 
-const newUpdatedFood = ({ id, image, name, category, price, description }) => {
-  const updatedFood = Food.findByIdAndUpdate(
+const newUpdatedFood = async ({ id, image, name, category, price, description }) => {
+  const updatedFood = await Food.findByIdAndUpdate(
     id,
     { image, name, category, price, description },
     { new: true, runValidators: true },
@@ -37,18 +40,23 @@ const newUpdatedFood = ({ id, image, name, category, price, description }) => {
       if (up) {
         return up;
       }
-      return { error: 'User bad request' };
+      return { status: 500, error: 'Internal server error' };
     })
     .catch((error) => error);
   return updatedFood;
 };
 
-const deleteFoodById = (id) => Food.findByIdAndDelete(id);
-
-const deleteFoodsById = (id) => {
-  const ids = id.split(',');
-  return Food.deleteMany({ _id: { $in: ids } });
+const deleteFoodById = async (id) => {
+  const food = await Food.findByIdAndDelete(id);
+  return food;
 };
+
+const deleteFoodsById = async (id) => {
+  const ids = id.split(',');
+  const deleteFoods = await Food.deleteMany({ _id: { $in: ids } });
+  return deleteFoods;
+};
+
 const getFoodByIds = async (foodsItems) => {
   const foodsIds = foodsItems.map((food) => food.foodId);
   const foods = await Food.find({ _id: { $in: foodsIds } }).select({
