@@ -5,15 +5,15 @@ const verifyUser = async (req, res, next) => {
   try {
     const { token } = req.cookies;
     if (!token) {
-      return res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({ status: 401, error: 'Unauthorized' });
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userExists = await getUserByProperty('email', decoded.email);
     if (!userExists) {
-      return res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({ status: 401, error: 'Unauthorized' });
     }
     if (userExists.role !== 'user') {
-      return res.status(403).json({ error: 'Forbidden' });
+      return res.status(403).json({ status: 403, error: 'Forbidden' });
     }
     req.user = userExists;
     return next();

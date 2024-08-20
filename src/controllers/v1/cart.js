@@ -4,6 +4,7 @@ const {
   getCartByProperty,
   updateNewCart,
   deleteACart,
+  deleteCartsByIds,
 } = require('../../services/v1/cart');
 const { getUserByProperty } = require('../../services/v1/user');
 
@@ -71,4 +72,15 @@ const deleteCart = async (req, res, next) => {
   return null;
 };
 
-module.exports = { createCart, getCarts, updateCarts, deleteCart };
+const deleteCarts = async (req, res, next) => {
+  try {
+    const { ids } = req.query;
+    await deleteCartsByIds(ids);
+    return res.status(204).json(null);
+  } catch (error) {
+    next(error);
+  }
+  return null;
+};
+
+module.exports = { createCart, getCarts, updateCarts, deleteCart, deleteCarts };

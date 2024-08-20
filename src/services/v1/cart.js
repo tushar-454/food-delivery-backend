@@ -31,4 +31,17 @@ const deleteACart = async (id) => {
   return cart;
 };
 
-module.exports = { createNewCart, getAllCarts, getCartByProperty, updateNewCart, deleteACart };
+const deleteCartsByIds = async (ids) => {
+  const idsArr = ids.split(',');
+  const carts = await Cart.deleteMany({ _id: { $in: idsArr } });
+  return carts;
+};
+
+module.exports = {
+  createNewCart,
+  getAllCarts,
+  getCartByProperty,
+  updateNewCart,
+  deleteACart,
+  deleteCartsByIds,
+};

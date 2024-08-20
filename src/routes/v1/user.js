@@ -8,7 +8,13 @@ const {
   deleteUser,
   loginUser,
 } = require('../../controllers/v1/user');
-const { createCart, getCarts, updateCarts, deleteCart } = require('../../controllers/v1/cart');
+const {
+  createCart,
+  getCarts,
+  updateCarts,
+  deleteCart,
+  deleteCarts,
+} = require('../../controllers/v1/cart');
 const { createOrder, getOrders, updateOrder } = require('../../controllers/v1/order');
 const verifyUser = require('../../middleware/verifyUser');
 
@@ -18,6 +24,7 @@ router.get('/categories', getCategories);
 router.get('/foods', getFoods);
 router.get('/:email', verifyUser, getUser);
 router.put('/:id', verifyUser, updateUser);
+router.delete('/carts', verifyUser, deleteCarts);
 router.delete('/:id', verifyUser, deleteUser);
 router.post('/cart', verifyUser, createCart);
 router.get('/carts/:id', verifyUser, getCarts);
