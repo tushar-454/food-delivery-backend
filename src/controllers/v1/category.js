@@ -11,10 +11,10 @@ const createCategory = async (req, res, next) => {
     const regex = /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|bmp|webp))$/;
     const { image, name, category } = req.body;
     if (!regex.test(image) || !name || !category) {
-      return res.status(400).json({ error: 'User bad request' });
+      return res.status(400).json({ status: 400, error: 'Bad request: Invalid input data.' });
     }
     const newCategory = await createNewCategory({ image, name, category });
-    return res.status(201).json(newCategory);
+    return res.status(201).json({ status: 201, category: newCategory });
   } catch (error) {
     next(error);
   }
@@ -25,7 +25,7 @@ const getCategories = async (req, res, next) => {
   try {
     const { fields } = req.query;
     const categories = await getAllCategories(fields);
-    return res.status(200).json(categories);
+    return res.status(200).json({ status: 200, categories });
   } catch (error) {
     next(error);
   }
@@ -38,11 +38,11 @@ const updateCategory = async (req, res, next) => {
     const { id } = req.params;
     const { image, name, category } = req.body;
     if (image && !regex.test(image)) {
-      return res.status(400).json({ error: 'User bad request' });
+      return res.status(400).json({ status: 400, error: 'Bad request: Invalid input data.' });
     }
     const isCategoryExist = await getCategoryByProperty('_id', id);
     if (!isCategoryExist) {
-      res.status(400).json({ error: 'User bad request' });
+      res.status(400).json({ status: 400, error: 'Bad request: Invalid input data.' });
     }
     const updateNewCategory = await updatedCategory({
       id,
@@ -50,7 +50,7 @@ const updateCategory = async (req, res, next) => {
       name,
       category,
     });
-    return res.status(200).json(updateNewCategory);
+    return res.status(200).json({ status: 200, category: updateNewCategory });
   } catch (error) {
     next(error);
   }
@@ -62,7 +62,7 @@ const deleteCategory = async (req, res, next) => {
     const { id } = req.params;
     const isCategoryExist = await getCategoryByProperty('_id', id);
     if (!isCategoryExist) {
-      res.status(400).json({ error: 'User bad request' });
+      res.status(400).json({ status: 400, error: 'Bad request: Invalid input data.' });
     }
     await deleteCategoryById(id);
     res.status(204).json(null);

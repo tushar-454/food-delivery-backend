@@ -30,7 +30,7 @@ const updatedCategory = ({ id, image, name, category }) => {
       if (up) {
         return up;
       }
-      return { error: 'User bad request' };
+      return { status: 500, error: 'Internal server error' };
     })
     .catch((error) => error);
   return updateCategory;
@@ -42,7 +42,7 @@ const deleteCategoryById = (id) => {
       if (del) {
         return del;
       }
-      return { error: 'User bad request' };
+      return { status: 500, error: 'Internal server error' };
     })
     .catch((error) => error);
 };
