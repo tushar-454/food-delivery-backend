@@ -1,23 +1,23 @@
 const Cart = require('../../models/Cart');
 
-const createNewCart = ({ userId, foodId, image, name, price, quantity, total }) => {
-  const cart = new Cart({ userId, foodId, image, name, price, quantity, total });
+const createNewCart = async ({ userId, foodId, image, name, price, quantity, total }) => {
+  const cart = await new Cart({ userId, foodId, image, name, price, quantity, total });
   return cart.save();
 };
 
-const getAllCarts = (id) => {
-  const userCarts = Cart.find({ userId: id });
+const getAllCarts = async (id) => {
+  const userCarts = await Cart.find({ userId: id });
   return userCarts;
 };
 
-const getCartByProperty = (property, value) => {
-  const cart = Cart.findOne({ [property]: value });
+const getCartByProperty = async (property, value) => {
+  const cart = await Cart.findOne({ [property]: value });
   return cart;
 };
 
-const updateNewCart = (cartItem, quantity) => {
+const updateNewCart = async (cartItem, quantity) => {
   if (quantity) {
-    const updatedCart = Cart.findByIdAndUpdate(cartItem.id, {
+    const updatedCart = await Cart.findByIdAndUpdate(cartItem.id, {
       quantity: parseInt(quantity, 10),
       total: parseInt(quantity, 10) * cartItem.price,
     });
@@ -26,8 +26,8 @@ const updateNewCart = (cartItem, quantity) => {
   return null;
 };
 
-const deleteACart = (id) => {
-  const cart = Cart.findByIdAndDelete(id);
+const deleteACart = async (id) => {
+  const cart = await Cart.findByIdAndDelete(id);
   return cart;
 };
 
