@@ -74,7 +74,7 @@ const updateOrderAdmin = async (req, res, next) => {
     if (
       status !== 'canceled' &&
       status !== 'pending' &&
-      status !== 'foodProcessing' &&
+      status !== 'processing' &&
       status !== 'ofd' &&
       status !== 'delivered'
     ) {
