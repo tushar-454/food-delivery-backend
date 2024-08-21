@@ -24,7 +24,7 @@ const createToken = async (req, res, next) => {
 
 const deleteToken = async (_req, res, next) => {
   try {
-    return res.status(204).clearCookie('token').json(null);
+    return res.status(200).clearCookie('token').json({ status: 200 });
   } catch (error) {
     next(error);
   }
