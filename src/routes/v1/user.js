@@ -2,6 +2,7 @@ const router = require('express').Router();
 const {
   getCategories,
   getFoods,
+  getSearchFoods,
   createUser,
   getUser,
   updateUser,
@@ -22,6 +23,7 @@ router.post('/', createUser);
 router.post('/login', loginUser);
 router.get('/categories', getCategories);
 router.get('/foods', getFoods);
+router.get('/searchfoods', getSearchFoods);
 router.get('/:email', verifyUser, getUser);
 router.put('/:id', verifyUser, updateUser);
 router.delete('/carts', verifyUser, deleteCarts);

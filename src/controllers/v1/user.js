@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const { getAllCategories } = require('../../services/v1/category');
-const { getAllFoods } = require('../../services/v1/food');
+const { getAllFoods, getSearchFoodsByValue } = require('../../services/v1/food');
 const {
   createNewUser,
   getUserByProperty,
@@ -23,6 +23,21 @@ const getFoods = async (req, res, next) => {
   try {
     const { category } = req.query;
     const foods = await getAllFoods(category);
+    res.status(200).json({ status: 200, foods });
+  } catch (error) {
+    next(error);
+  }
+  return null;
+};
+
+const getSearchFoods = async (req, res, next) => {
+  try {
+    const { category, min, max } = req.query;
+    const foods = await getSearchFoodsByValue({
+      categoryStr: category,
+      minimum: min,
+      maximun: max,
+    });
     res.status(200).json({ status: 200, foods });
   } catch (error) {
     next(error);
@@ -171,6 +186,7 @@ const loginUser = async (req, res, next) => {
 module.exports = {
   getCategories,
   getFoods,
+  getSearchFoods,
   createUser,
   getUser,
   deleteUser,

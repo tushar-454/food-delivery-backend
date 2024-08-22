@@ -68,6 +68,36 @@ const getFoodByIds = async (foodsItems) => {
   return foods;
 };
 
+const getSearchFoodsByValue = async ({ categoryStr, minimum, maximun }) => {
+  const min = parseInt(minimum, 10);
+  const max = parseInt(maximun, 10);
+  const category = categoryStr && categoryStr.split(',');
+  let propagation = {};
+  if (category) {
+    propagation = { category: { $in: category } };
+  }
+  if (min && max) {
+    propagation.price = { $gte: min, $lte: max };
+  }
+  if (min && max && category) {
+    propagation = { category: { $in: category }, price: { $gte: min, $lte: max } };
+  }
+  if (min && !max) {
+    propagation.price = { $gte: min };
+  }
+  if (!min && max) {
+    propagation.price = { $gte: 0, $lte: max };
+  }
+  if (min && !max && category) {
+    propagation = { category: { $in: category }, price: { $gte: min } };
+  }
+  if (!min && max && category) {
+    propagation = { category: { $in: category }, price: { $lte: max } };
+  }
+  const foods = await Food.aggregate([{ $match: propagation }, { $sort: { price: 1 } }]);
+  return foods;
+};
+
 module.exports = {
   newCreateFood,
   getAllFoods,
@@ -77,4 +107,5 @@ module.exports = {
   deleteFoodById,
   deleteFoodsById,
   getFoodByIds,
+  getSearchFoodsByValue,
 };
