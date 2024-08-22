@@ -3,7 +3,7 @@ const { createNewOrder, getAllOrders, updateOrderStatus } = require('../../servi
 
 const createOrder = async (req, res, next) => {
   try {
-    const { userId, foodsItems } = req.body;
+    const { userId, foodsItems, deliveryFee } = req.body;
     const food = await getFoodByIds(foodsItems);
     if (!food || food.length === 0) {
       return res.status(400).json({ status: 400, error: 'Bad request: Invalid input data.' });
@@ -23,7 +23,7 @@ const createOrder = async (req, res, next) => {
       }
       return acc + curr.price * curr.quantity;
     }, 0);
-    const order = await createNewOrder({ userId, foodItem, total });
+    const order = await createNewOrder({ userId, foodItem, total: total + deliveryFee });
     return res.status(201).json({ status: 201, order });
   } catch (error) {
     next(error);
