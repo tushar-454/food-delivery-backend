@@ -12,7 +12,7 @@ const createNewOrder = async ({ userId, foodItem, total, transactionId }) => {
 
 const getAllOrders = async (userId) => {
   if (userId) {
-    const orders = await Order.find({ userId }).sort({ createdAt: -1 });
+    const orders = await Order.find({ userId, isPaid: true }).sort({ createdAt: -1 });
     return orders;
   }
   const orders = await Order.find()
