@@ -2,6 +2,7 @@ const { ObjectId } = require('mongodb');
 const axios = require('axios');
 const { getFoodByIds } = require('../../services/v1/food');
 const { createNewOrder } = require('../../services/v1/order');
+const Order = require('../../models/Order');
 
 const createPayment = async (req, res, next) => {
   const { amount, productName, categories, user, userId, foodsItems, deliveryFee } = req.body;
@@ -45,7 +46,7 @@ const createPayment = async (req, res, next) => {
       total_amount: amount,
       currency: 'BDT',
       tran_id: transactionId,
-      success_url: `${process.env.API_BASE_URL}/success`,
+      success_url: `${process.env.API_BASE_URL}/api/v1/payment/success-payment`,
       fail_url: `${process.env.API_BASE_URL}/fail`,
       cancel_url: `${process.env.API_BASE_URL}/cancel`,
       ipn_url: 'http://yourwebsite.com/ipn',
@@ -80,6 +81,34 @@ const createPayment = async (req, res, next) => {
   }
 };
 
+const successPayment = async (req, res, next) => {
+  try {
+    const successData = req.body;
+    if (successData.status !== 'VALID') {
+      return res.status(400).json({
+        status: 400,
+        error: 'Invalid request, payment failed',
+      });
+    }
+    // update order status
+    const order = await Order.findOneAndUpdate(
+      {
+        transactionId: successData.tran_id,
+      },
+      {
+        isPaid: true,
+      },
+    );
+    return res.status(200).json({
+      status: 200,
+      successData,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   createPayment,
+  successPayment,
 };
