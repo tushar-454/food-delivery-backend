@@ -39,6 +39,14 @@ const orderSchema = new Schema({
     enum: ['canceled', 'pending', 'processing', 'ofd', 'delivered'],
     default: 'pending',
   },
+  transactionId: {
+    type: String,
+    required: [true, 'Transaction ID  is required'],
+  },
+  isPaid: {
+    type: Boolean,
+    default: false,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

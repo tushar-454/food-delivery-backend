@@ -1,10 +1,11 @@
 const Order = require('../../models/Order');
 
-const createNewOrder = async ({ userId, foodItem, total }) => {
+const createNewOrder = async ({ userId, foodItem, total, transactionId }) => {
   const order = await new Order({
     userId,
     orderItems: foodItem,
     total: total.toFixed(2),
+    transactionId,
   });
   return order.save();
 };

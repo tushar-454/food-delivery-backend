@@ -10,7 +10,8 @@
   "rules": {
     "no-console": "off",
     "object-curly-newline":"off",
-    "operator-linebreak":"off"
+    "operator-linebreak":"off",
+    "no-extranaous-dependencies":"off",
   },
   "plugins": ["prettier"]
 }
