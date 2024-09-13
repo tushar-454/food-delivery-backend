@@ -113,7 +113,19 @@ const successPayment = async (req, res, next) => {
 
 const failPayment = async (req, res, next) => {
   try {
-    res.redirect(`${process.env.FRONTEND_URL}/failed`);
+    const failData = req.body;
+    if (failData.status !== 'FAILED') {
+      return res.status(400).json({
+        status: 400,
+        error: 'Invalid request, payment failed',
+      });
+    }
+    const order = await Order.findOneAndDelete({
+      transactionId: failData.tran_id,
+    });
+    if (order) {
+      res.redirect(`${process.env.FRONTEND_URL}/fail`);
+    }
   } catch (error) {
     next(error);
   }
@@ -121,7 +133,19 @@ const failPayment = async (req, res, next) => {
 
 const cancelPayment = async (req, res, next) => {
   try {
-    res.redirect(`${process.env.FRONTEND_URL}/cancel`);
+    const cancelData = req.body;
+    if (cancelData.status !== 'CANCELLED') {
+      return res.status(400).json({
+        status: 400,
+        error: 'Invalid request, payment failed',
+      });
+    }
+    const order = await Order.findOneAndDelete({
+      transactionId: cancelData.tran_id,
+    });
+    if (order) {
+      res.redirect(`${process.env.FRONTEND_URL}/cancel`);
+    }
   } catch (error) {
     next(error);
   }
